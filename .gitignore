@@ -1,0 +1,5 @@
+/.idea/
+/target
+*.iml
+debug.log
+TestReports/*
