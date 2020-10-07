@@ -8,9 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.Console;
-import org.openqa.selenium.devtools.DevTools;
+import utils.RestUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +19,6 @@ public class TestSetup extends BaseTest {
     private int counter = 1;
     private final Controller controller;
     private static final String APP_URL = "https://ndtv.com";
-    private final Map<String, String> ERROR_LOGS = new HashMap<>();
 
     public TestSetup(Controller controller) {
         this.controller = controller;
@@ -36,24 +33,15 @@ public class TestSetup extends BaseTest {
         scenario.write("launching browser...");
         driver = controller.getDriver();
         driver.manage().window().maximize();
-
-        openTestApplication();
-
-        //remove this code - this is temp , just for demo purpose
-        JavascriptExecutor exec = (JavascriptExecutor) driver;
-        exec.executeScript("console.error('Abandon Hope All Ye Who Enter');");
-        exec.executeScript("console.warn('Warning message');");
-        exec.executeScript("console.info('Information message');");
-
+        scenario.write("setting up base uri for API tests...");
+        RestUtil.setBaseURI("https://openweathermap.org");
+        scenario.write("Opening Application under Test...");
     }
 
 
     @After(order = 1)
     public void embedScreenshot(Scenario scenario)
     {
-        System.out.println("Reading browser console logs if any....");
-        ERROR_LOGS.forEach((k,v) -> System.out.println(k.toUpperCase() + " -> " +v));
-
         if (scenario.isFailed() && driver != null)
         {
             scenario.write("taking screenshot for failed scenario");
@@ -68,10 +56,8 @@ public class TestSetup extends BaseTest {
         scenario.write("After scenario. Thread id is: " + id);
         scenario.write("shutting down browser");
         controller.teardownController();
-    }
-
-    private void openTestApplication() {
-        driver.get(TestSetup.APP_URL);
+        scenario.write("resetting BASE URI");
+        RestUtil.resetBaseURI();
     }
 
 }

@@ -6,5 +6,4 @@ public class BaseTest {
 
     protected static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
-
 }
