@@ -7,7 +7,7 @@ public enum DriverType {
     IE;
 
     public static DriverType getType() {
-        String browser = System.getProperty("browser", "CHROME");
+        String browser = System.getProperty("Browser", "CHROME");
         return DriverType.valueOf(browser);
     }
 
