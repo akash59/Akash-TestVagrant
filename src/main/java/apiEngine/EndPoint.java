@@ -5,6 +5,8 @@ import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -16,22 +18,26 @@ public class EndPoint {
     private final RequestSpecBuilder requestBuilder;
     private final ResponseSpecBuilder responseSpecBuilder;
     private ResponseSpecification responseSpec;
+    private static final Logger LOG = LoggerFactory.getLogger(EndPoint.class);
 
 
     public EndPoint(String baseUrl) {
+        LOG.info("Setting up endpoint {} for executing request", baseUrl);
         requestBuilder = new RequestSpecBuilder();
         responseSpecBuilder = new ResponseSpecBuilder();
-        buildRequestSpec(baseUrl);
+        requestBuilder.setBaseUri(baseUrl);
+        buildRequestSpec();
     }
 
-    public void buildRequestSpec(String baseUrl) {
-        requestBuilder.setBaseUri(baseUrl);
+    public void buildRequestSpec() {
+        LOG.info("Building request specification");
         requestBuilder.setBasePath(DATA + VERSION);
         requestBuilder.addHeader("Content-Type", "application/json");
         requestBuilder.addQueryParam("appid", APP_ID);
     }
 
-    public ResponseSpecification buildResponseSpec(int expected_status_code, ContentType type){
+    public ResponseSpecification buildResponseSpec(int expected_status_code, ContentType type) {
+        LOG.info("Building response specification");
         return responseSpecBuilder.
                 expectStatusCode(expected_status_code).
                 expectContentType(type).
@@ -39,6 +45,7 @@ public class EndPoint {
     }
 
    public void addQueryParams(Map<String, String> params) {
+        LOG.info("Adding query parameters");
         params.forEach(requestBuilder::addQueryParam);
     }
 

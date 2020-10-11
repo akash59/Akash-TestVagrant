@@ -5,10 +5,14 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static io.restassured.RestAssured.given;
 
 public class APIHandler {
+
+    private static final Logger LOG = LoggerFactory.getLogger(APIHandler.class);
 
     /**
      * Static method for making Rest-Assured GET requests.
@@ -19,7 +23,7 @@ public class APIHandler {
      * @return Response
      */
     public static Response get(String restAPI, RequestSpecBuilder reqBuilder, ResponseSpecification expectedResponse) {
-        System.out.println(restAPI);
+        LOG.info("Executing GET request on API {}" , restAPI);
         return fireRestCall(restAPI, reqBuilder, expectedResponse, Method.GET);
     }
 
@@ -74,10 +78,8 @@ public class APIHandler {
     }
 
     private static RequestSpecification prepRequest(RequestSpecBuilder reqBuilder) {
+        LOG.info("Preparing request");
         RequestSpecification req;
-        //TestProperties tp = TestProperties.getInstance();
-        //TargetServiceConfiguration targetService = tp.getTargetServiceConfig(serviceName);
-        //reqBuilder.setBaseUri(targetService.getURL());
         req = reqBuilder.build();
         return req;
     }

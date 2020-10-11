@@ -5,6 +5,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import page.components.WeatherDetail;
 
 import java.util.Objects;
 
@@ -12,6 +15,7 @@ public class PageActions {
 
     protected WebDriverWait wait;
     protected WebDriver driver;
+    private static final Logger LOG = LoggerFactory.getLogger(PageActions.class);
 
     public PageActions(Controller controller) {
         this.driver = controller.getDriver();
@@ -35,6 +39,7 @@ public class PageActions {
     }
 
     public void type(WebElement element, CharSequence text) {
+        LOG.info("Type into web element - {}", text);
         waitForVisibilityOfElement(element, 2000);
         element.sendKeys(text);
     }
@@ -49,6 +54,7 @@ public class PageActions {
                 .ignoring(StaleElementReferenceException.class)
                 .until(d -> ExpectedConditions.elementToBeClickable(element));
         try {
+            LOG.info("Clicking web element");
             element.click();
         }
         catch (StaleElementReferenceException se) {
@@ -132,21 +138,20 @@ public class PageActions {
     }
 
     public void enableCheckBox(WebElement element) {
-        System.out.println(element.getAttribute("checked"));
         if (null == element.getAttribute("checked") || !"true".equals(element.getAttribute("checked").trim())) {
-            System.out.println("Enabling checkbox");
+            LOG.info("Enabling checkbox");
             click(element);
         } else {
-            System.out.println("Checkbox is already clicked");
+            LOG.info("Checkbox is already clicked");
         }
     }
 
     public void disableCheckBox(WebElement element) {
         if ("false".equals(element.getAttribute("checked"))) {
             click(element);
-            System.out.println("disabling checkbox");
+            LOG.info("disabling checkbox");
         } else {
-            System.out.println("Checkbox is already unchecked");
+            LOG.info("Checkbox is already unchecked");
         }
     }
 

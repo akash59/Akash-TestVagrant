@@ -7,12 +7,16 @@ import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.WeatherComparison;
 
 public class TestSetup extends BaseTest {
 
     private WebDriver driver;
     private int counter = 1;
     private final Controller controller;
+    private static final Logger LOG = LoggerFactory.getLogger(TestSetup.class);
 
     public TestSetup(Controller controller) {
         this.controller = controller;
@@ -22,13 +26,9 @@ public class TestSetup extends BaseTest {
     @Before
     public void init(Scenario scenario) {
         BaseTest.scenario.set(scenario);
-        long id = Thread.currentThread().getId();
-        scenario.write("Before scenario. Thread id is: " + id);
-        scenario.write("launching browser...");
+        LOG.info("launching browser...");
         driver = controller.getDriver();
         driver.manage().window().maximize();
-        scenario.write("setting up base uri for API tests...");
-        scenario.write("Opening Application under Test...");
     }
 
 
@@ -38,6 +38,7 @@ public class TestSetup extends BaseTest {
         if (scenario.isFailed() && driver != null)
         {
             scenario.write("taking screenshot for failed scenario");
+            LOG.info("taking screenshot for failed scenario");
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.embed(screenshot, "image/png", "failure" + "_" + counter++ + ".png");
         }
@@ -45,9 +46,8 @@ public class TestSetup extends BaseTest {
 
     @After(order = 0)
     public void tear_down(Scenario scenario) {
-        long id = Thread.currentThread().getId();
-        scenario.write("After scenario. Thread id is: " + id);
         scenario.write("shutting down browser");
+        LOG.info("shutting down browser");
         controller.teardownController();
     }
 

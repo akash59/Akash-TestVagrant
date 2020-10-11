@@ -8,6 +8,8 @@ import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import model.Weather;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import page.main.NDTVMainPage;
 import page.main.NDTVWeatherReportPage;
@@ -23,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 public class WeatherTestSteps extends BaseTest
 {
 
+    private static final Logger LOG = LoggerFactory.getLogger(WeatherTestSteps.class);
     private final NDTVMainPage ndtvMainPage;
     private final NDTVWeatherReportPage ndtvWeatherReportPage;
     private Weather ndtvWeather;
@@ -56,6 +59,7 @@ public class WeatherTestSteps extends BaseTest
             scenario.get().write("In Celcius "+ ndtvWeather.getWeather_celcius());
         } catch (Exception e) {
             scenario.get().write("Temp details for "+city+" could not be fetched ");
+            LOG.error("Temp details for city {} could not be fetched", city);
             throw new RuntimeException("Error fetching Temp details from the website");
         }
     }
@@ -65,6 +69,7 @@ public class WeatherTestSteps extends BaseTest
     public void getTheWeatherDetailsFromTheApi(Map<String, String> params) {
         EndPoint endPoint = new EndPoint(API_URL);
         final Response response = endPoint.getWeatherFromAPIWithParams(params);
+        scenario.get().write(response.asString());
         String city = response.path("name").toString();
         int temp_c = (int) Float.parseFloat(response.path("main.temp").toString());
         scenario.get().write("Temperature retrieved from API as actual " +temp_c);
