@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.Objects;
 
 public class PageActions {
@@ -133,8 +132,8 @@ public class PageActions {
     }
 
     public void enableCheckBox(WebElement element) {
-        System.out.println(element.getAttribute("checked").trim());
-        if (!"true".equals(element.getAttribute("checked").trim())) {
+        System.out.println(element.getAttribute("checked"));
+        if (null == element.getAttribute("checked") || !"true".equals(element.getAttribute("checked").trim())) {
             System.out.println("Enabling checkbox");
             click(element);
         } else {
@@ -143,7 +142,7 @@ public class PageActions {
     }
 
     public void disableCheckBox(WebElement element) {
-        if ("checked".equals(element.getAttribute("checked"))) {
+        if ("false".equals(element.getAttribute("checked"))) {
             click(element);
             System.out.println("disabling checkbox");
         } else {

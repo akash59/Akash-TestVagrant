@@ -14,8 +14,7 @@ import org.testng.annotations.DataProvider;
         monochrome = true,
         plugin = { "pretty",
                 "html:target",
-                "json:target/cucumber.json",
-                "logging.CustomTagsFormatter:target/tags.txt"
+                "json:target/cucumber.json"
         },
         tags = { "(@Sanity or @Regression)"},
         strict = true

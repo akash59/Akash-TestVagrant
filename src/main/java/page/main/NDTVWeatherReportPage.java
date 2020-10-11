@@ -6,9 +6,6 @@ import page.components.PinYourCity;
 import page.components.WeatherDetail;
 import utils.PageActions;
 
-import java.util.List;
-import java.util.Map;
-
 @Getter
 public class NDTVWeatherReportPage {
 

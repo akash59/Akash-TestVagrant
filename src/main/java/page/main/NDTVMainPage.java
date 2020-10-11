@@ -19,9 +19,9 @@ public class NDTVMainPage {
         this.notificationWrap = new NotificationWrap(controller);
     }
 
-    public void goToLandingPage() {
+    public void goToLandingPage(String url) {
         //read from a prop file
-        pageActions.navigateTo("https://ndtv.com");
+        pageActions.navigateTo(url);
         if(notificationWrap.isLoaded()) {
             pageActions.click(notificationWrap.no_thanks_button);
         }

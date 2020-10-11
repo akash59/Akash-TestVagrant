@@ -1,6 +1,7 @@
 package page.components;
 
 import core.controller.Controller;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -10,12 +11,12 @@ import utils.PageActions;
 public class PinYourCity extends BasePage {
 
     private final PageActions pageActions;
+    private String city_loc = "//*[@id='%s']";
 
     @FindBy(how = How.ID, using = "searchBox")
     private WebElement search_box;
 
-    @FindBy(how = How.ID, using = "New Delhi")
-    private WebElement new_Delhi;
+    private WebElement cityToSelect;
 
 
     public PinYourCity(Controller controller) {
@@ -24,9 +25,10 @@ public class PinYourCity extends BasePage {
     }
 
     public void pinCity(String city) {
+        cityToSelect = pageActions.getWebElement(By.xpath(String.format(city_loc, city)), 10);
         pageActions.clearText(search_box);
         pageActions.type(search_box, city);
-        pageActions.enableCheckBox(new_Delhi);
+        pageActions.enableCheckBox(cityToSelect);
     }
 
     @Override
