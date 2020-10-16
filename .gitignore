@@ -3,3 +3,4 @@
 *.iml
 debug.log
 TestReports/*
+test-log*.txt
