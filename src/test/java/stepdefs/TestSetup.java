@@ -9,7 +9,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.WeatherComparison;
 
 public class TestSetup extends BaseTest {
 
@@ -21,7 +20,6 @@ public class TestSetup extends BaseTest {
     public TestSetup(Controller controller) {
         this.controller = controller;
     }
-
 
     @Before
     public void init(Scenario scenario) {
@@ -37,16 +35,16 @@ public class TestSetup extends BaseTest {
     {
         if (scenario.isFailed() && driver != null)
         {
-            scenario.write("taking screenshot for failed scenario");
+            scenario.log("taking screenshot for failed scenario");
             LOG.info("taking screenshot for failed scenario");
             byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            scenario.embed(screenshot, "image/png", "failure" + "_" + counter++ + ".png");
+            scenario.attach(screenshot, "image/png", "failure" + "_" + counter++ + ".png");
         }
     }
 
     @After(order = 0)
     public void tear_down(Scenario scenario) {
-        scenario.write("shutting down browser");
+        scenario.log("shutting down browser");
         LOG.info("shutting down browser");
         controller.teardownController();
     }

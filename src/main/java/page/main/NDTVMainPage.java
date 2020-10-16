@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import page.common.NotificationWrap;
 import page.common.PageHeader;
-import page.components.WeatherDetail;
 import utils.PageActions;
 
 @Getter

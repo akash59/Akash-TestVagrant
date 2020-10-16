@@ -33,20 +33,20 @@ public class WeatherTestSteps extends BaseTest
 
     @When("user visits ndtv website")
     public void openNdtvWebsite() {
-        scenario.get().write("Opening NDTV Home page");
+        scenario.get().log("Opening NDTV Home page");
         ndtvMainPage.goToLandingPage(APP_URL);
     }
 
     @And("opens the weather section")
     public void openWeatherPage() {
-        scenario.get().write("Opening Weather Report page");
+        scenario.get().log("Opening Weather Report page");
         Assert.assertTrue(ndtvMainPage.getPageHeader().isLoaded());
         ndtvMainPage.getPageHeader().navigateToWeatherPage();
     }
 
     @And("selects the city {string} from Pin your city section")
     public void pinYourCity(String city) {
-        scenario.get().write("Select city as "+city);
+        scenario.get().log("Select city as "+city);
         Assert.assertTrue(ndtvWeatherReportPage.getPinYourCity().isLoaded());
         ndtvWeatherReportPage.getPinYourCity().pinCity(city);
     }
@@ -55,10 +55,10 @@ public class WeatherTestSteps extends BaseTest
     public void verifyPinnedCityTemperatureInfo(String city) {
         try {
             ndtvWeather = ndtvWeatherReportPage.getWeatherDetail().getWeather(city);
-            scenario.get().write("Weather for City "+ ndtvWeather.getCity() +": ");
-            scenario.get().write("In Celcius "+ ndtvWeather.getWeather_celcius());
+            scenario.get().log("Weather for City "+ ndtvWeather.getCity() +": ");
+            scenario.get().log("In Celcius "+ ndtvWeather.getWeather_celcius());
         } catch (Exception e) {
-            scenario.get().write("Temp details for "+city+" could not be fetched ");
+            scenario.get().log("Temp details for "+city+" could not be fetched ");
             LOG.error("Temp details for city {} could not be fetched", city);
             throw new RuntimeException("Error fetching Temp details from the website");
         }
@@ -69,10 +69,10 @@ public class WeatherTestSteps extends BaseTest
     public void getTheWeatherDetailsFromTheApi(Map<String, String> params) {
         EndPoint endPoint = new EndPoint(API_URL);
         final Response response = endPoint.getWeatherFromAPIWithParams(params);
-        scenario.get().write(response.asString());
+        scenario.get().log(response.asString());
         String city = response.path("name").toString();
         int temp_c = (int) Float.parseFloat(response.path("main.temp").toString());
-        scenario.get().write("Temperature retrieved from API as actual " +temp_c);
+        scenario.get().log("Temperature retrieved from API as actual " +temp_c);
         apiWeather = new Weather(city, temp_c, 0);
     }
 

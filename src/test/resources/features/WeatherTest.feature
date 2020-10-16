@@ -9,7 +9,7 @@ Feature: Verify Weather Details
     Then get the weather details from the api
       | q     | New Delhi |
       | units | metric    |
-    Then temperature difference shall comply with the variance threshold 6
+    Then temperature difference shall comply with the variance threshold 0
 
   @Regression
   Scenario:  Verify Weather Report for city "New Delhi" with temperature variance of 2 degrees

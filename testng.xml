@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
-<suite name="Google Search Tests">
+<suite name="Weather Tests">
+    <listeners>
+        <listener class-name="testrunners.TestNGSuiteAlterer"/>
+    </listeners>
     <test name="Sanity Tests">
         <classes>
             <class name="testrunners.SanityTestRunner" />

@@ -46,8 +46,12 @@ public class EndPoint {
 
    public void addQueryParams(Map<String, String> params) {
         LOG.info("Adding query parameters");
-        params.forEach(requestBuilder::addQueryParam);
-    }
+       for (Map.Entry<String, String> entry : params.entrySet()) {
+           String key = entry.getKey();
+           String value = entry.getValue();
+           requestBuilder.addQueryParam(key, value);
+       }
+   }
 
     public Response getWeatherFromAPIWithParams(Map<String, String> params) {
         addQueryParams(params);
